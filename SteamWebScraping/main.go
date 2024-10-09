@@ -25,16 +25,9 @@ func main() {
 	latestCount, err := dataaccess.CompareAndInsert(db, amountGames)
 	if err != nil {
 		fmt.Printf("Error comparing and inserting: %v\n", err)
-	} else {
-		fmt.Printf("Comparison and insertion completed successfully. %d > %d\n", amountGames, latestCount)
+	} else if amountGames > latestCount {
+		difference := amountGames - latestCount
+		fmt.Printf("User added %d new game(s)", difference)
+		// Send a message to RabbitMQ ---
 	}
-
-	// if amountGames > latestCount
-	// send message: new game added
-
-	// if amountGames < latestCount
-	// send message: a game has been removed
-
-	// if amountGames == latestCount
-	// do nothing
 }
