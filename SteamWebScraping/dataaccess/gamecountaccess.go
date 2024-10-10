@@ -37,7 +37,7 @@ func CompareAndInsert(db *sql.DB, input int) (int, error) {
 		}
 		return latestCount, nil
 	} else {
-		fmt.Printf("Input %d = seneste værdi %d. Ingen indsættelse.\n", input, latestCount)
+		fmt.Printf("Input %d. Seneste værdi %d. Ingen indsættelse.\n", input, latestCount)
 		return latestCount, nil
 	}
 }

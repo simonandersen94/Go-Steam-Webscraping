@@ -20,7 +20,6 @@ func main() {
 		fmt.Println("Error:", err)
 		return
 	}
-	fmt.Println("AmountGames:", amountGames)
 
 	latestCount, err := dataaccess.CompareAndInsert(db, amountGames)
 	if err != nil {
