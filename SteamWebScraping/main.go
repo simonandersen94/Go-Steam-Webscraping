@@ -26,7 +26,11 @@ func main() {
 		fmt.Printf("Error comparing and inserting: %v\n", err)
 	} else if amountGames > latestCount {
 		difference := amountGames - latestCount
-		fmt.Printf("User added %d new game(s)", difference)
+		if difference == 1 {
+			fmt.Printf("User added %d new game", difference)
+		} else if difference > 1 {
+			fmt.Printf("User added %d new games", difference)
+		}
 		// Send a message to RabbitMQ ---
 	}
 }
