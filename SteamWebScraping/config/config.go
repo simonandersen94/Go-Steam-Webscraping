@@ -15,7 +15,8 @@ type Config struct {
 func LoadConfig(filePath string) *Config {
 	file, err := os.Open(filePath)
 	if err != nil {
-		log.Fatalf("Error opening config file: v%", err)
+		log.Println("Error opening config file:", err)
+		return nil
 	}
 	defer file.Close()
 
@@ -23,7 +24,8 @@ func LoadConfig(filePath string) *Config {
 	decoder := json.NewDecoder(file)
 	err = decoder.Decode(&config)
 	if err != nil {
-		log.Fatalf("Error decoding config file: v%", err)
+		log.Println("Error decoding config file:", err)
+		return nil
 	}
 
 	return &config
