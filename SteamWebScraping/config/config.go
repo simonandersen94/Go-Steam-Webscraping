@@ -7,9 +7,15 @@ import (
 )
 
 type Config struct {
-	ScrapeUrl     string `json:"scrape_url"`
-	AllowedDomain string `json:"allowedDomain"`
-	DatabaseDSN   string `json:"database_dsn"`
+	ScrapeUrl                  string `json:"scrape_url"`
+	SteamID                    string `json:"steam_id"`
+	AllowedDomain              string `json:"allowedDomain"`
+	DatabaseDSN                string `json:"database_dsn"`
+	RabbitMQUri                string `json:"RabbitMQ_Uri"`
+	RabbitMQClientProvidedName string `json:"rabbitMQ_clientProvidedName"`
+	RabbitMQExchangeName       string `json:"rabbitMQ_exchangeName"`
+	RabbitMQRoutingKey         string `json:"rabbitMQ_routingKey"`
+	RabbitMQQueueName          string `json:"rabbitMQ_queueName"`
 }
 
 func LoadConfig(filePath string) *Config {

@@ -8,8 +8,7 @@ import (
 	"strings"
 )
 
-func ScrapeGamesCount() (int, error) {
-	cfg := config.LoadConfig("config/config.json")
+func ScrapeGamesCount(cfg *config.Config) (int, error) {
 	var c = colly.NewCollector(colly.AllowedDomains(cfg.AllowedDomain))
 	var amountGames int
 	var valueGameCountCaptured bool = false
@@ -27,7 +26,7 @@ func ScrapeGamesCount() (int, error) {
 		}
 	})
 
-	err := c.Visit(cfg.ScrapeUrl)
+	err := c.Visit(cfg.ScrapeUrl + cfg.SteamID)
 	if err != nil {
 		fmt.Printf("Error visiting URL: %v\n", err)
 		return 0, err
