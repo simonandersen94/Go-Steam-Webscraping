@@ -6,6 +6,7 @@ import (
 	"SteamWebScraping/rabbit_MQ"
 	"SteamWebScraping/scraping"
 	"fmt"
+	"time"
 )
 
 func main() {
@@ -29,28 +30,32 @@ func main() {
 	}
 	defer db.Close()
 
-	amountGames, err := scraping.ScrapeGamesCount(cfg)
-	if err != nil {
-		fmt.Printf("Error scraping game count: %v\n", err)
-		return
-	}
-
-	latestCount, err := dataaccess.CompareAndInsert(db, amountGames)
-	fmt.Printf("Amount games: %d, Latest count: %d\n", amountGames, latestCount)
-
-	if amountGames > latestCount {
-		difference := amountGames - latestCount
-		message := fmt.Sprintf("Steamuser %s added %d new game(s)", cfg.SteamID, difference)
-		fmt.Println(message)
-
-		err = rabbit_MQ.SendMessage(
-			rmqService,
-			cfg.RabbitMQExchangeName,
-			cfg.RabbitMQRoutingKey,
-			message,
-		)
+	for {
+		amountGames, err := scraping.ScrapeGamesCount(cfg)
 		if err != nil {
-			fmt.Printf("Error sending message to RabbitMQ: %v\n", err)
+			fmt.Printf("Error scraping game count: %v\n", err)
+			return
 		}
+
+		latestCount, err := dataaccess.CompareAndInsert(db, amountGames)
+		fmt.Printf("Amount games: %d, Latest count: %d\n", amountGames, latestCount)
+
+		if amountGames > latestCount {
+			difference := amountGames - latestCount
+			message := fmt.Sprintf("Steamuser %s added %d new game(s)", cfg.SteamID, difference)
+			fmt.Println(message)
+
+			err = rabbit_MQ.SendMessage(
+				rmqService,
+				cfg.RabbitMQExchangeName,
+				cfg.RabbitMQRoutingKey,
+				message,
+			)
+			if err != nil {
+				fmt.Printf("Error sending message to RabbitMQ: %v\n", err)
+			}
+		}
+
+		time.Sleep(60 * time.Minute)
 	}
 }
