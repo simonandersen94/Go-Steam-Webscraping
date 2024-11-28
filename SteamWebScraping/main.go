@@ -42,7 +42,7 @@ func main() {
 
 		if amountGames > latestCount {
 			difference := amountGames - latestCount
-			message := fmt.Sprintf("Steamuser %s added %d new game(s)", cfg.SteamID, difference)
+			message := fmt.Sprintf("Steam Webscraping: Steam User '%s' added %d new game(s)", cfg.SteamID, difference)
 			fmt.Println(message)
 
 			err = rabbit_MQ.SendMessage(
@@ -56,6 +56,6 @@ func main() {
 			}
 		}
 
-		time.Sleep(60 * time.Minute)
+		time.Sleep(1 * time.Minute)
 	}
 }
