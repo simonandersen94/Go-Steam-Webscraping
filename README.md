@@ -1,2 +1,1 @@
-An application built in the Go programming language, aimed at scraping a Steam profile for the number of games it contains.
-It scrapes from Steam at a specified interval and has an associated MySQL database that stores the number of games on the profile only when there are changes.
+An application built in the Go programming language, designed to scrape a Steam profile for the number of games it contains. It scrapes Steam at a specified interval and has an associated MySQL database that stores the number of games on the profile only when there are changes. If the number of games has changed, a message is sent to a RabbitMQ queue, which can be consumed by other applications.
