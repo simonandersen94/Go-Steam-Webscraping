@@ -1,0 +1,9 @@
+services:
+  webscraper:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./config:/root/config
+    ports:
+      - "8053:8053"
